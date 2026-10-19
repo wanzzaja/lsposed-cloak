@@ -1,0 +1,3 @@
+-keep class com.an0ym.lsposedcloak.** { *; }
+-keep class de.robv.android.xposed.** { *; }
+-dontwarn de.robv.android.xposed.**
