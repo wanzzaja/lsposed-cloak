@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPosed Cloak</string>
+    <string name="xposed_description">Anti-fingerprint &amp; anti-VPN hooks for Shopee &amp; TikTok.</string>
+</resources>
