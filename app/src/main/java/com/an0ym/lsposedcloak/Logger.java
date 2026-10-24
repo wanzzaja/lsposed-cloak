@@ -1,7 +1,5 @@
 package com.an0ym.lsposedcloak;
-
 import android.util.Log;
-
 public final class Logger {
     private static final String TAG = "LSPCloak";
     public static void i(String msg) { try { Log.i(TAG, msg); } catch (Throwable ignored) {} }
