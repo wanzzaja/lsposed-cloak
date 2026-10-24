@@ -1,17 +1,22 @@
 package com.an0ym.lsposedcloak;
-
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class MainHook implements IXposedHookLoadPackage {
+    private static final String[] TARGET_PACKAGES = {
+        "com.shopee.id",
+        "com.zhiliaoapp.musically"
+    };
 
-    private static final String SHOPEE = "com.shopee.id";
-    private static final String TIKTOK = "com.ss.android.ugc.trill";
+    private boolean isTarget(String pkg) {
+        for (String t : TARGET_PACKAGES) if (t.equals(pkg)) return true;
+        return false;
+    }
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lp) {
         if (lp == null || lp.packageName == null) return;
-        if (!lp.packageName.equals(SHOPEE) && !lp.packageName.equals(TIKTOK)) return;
+        if (!isTarget(lp.packageName)) return;
 
         Logger.i("hooking " + lp.packageName);
 
@@ -19,6 +24,7 @@ public class MainHook implements IXposedHookLoadPackage {
         safe(() -> SensorBiasHook.install(lp));
         safe(() -> NetworkCloakHook.install(lp));
         safe(() -> MockLocationHook.install(lp));
+        safe(() -> TelephonySpoofHook.install(lp)); // Added
         
         safe(() -> CameraSerialHook.install(lp));
         safe(() -> OaidMsaaHook.install(lp));
