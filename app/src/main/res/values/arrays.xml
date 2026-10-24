@@ -2,6 +2,6 @@
 <resources>
     <string-array name="xposed_scope">
         <item>com.shopee.id</item>
-        <item>com.ss.android.ugc.trill</item>
+        <item>com.zhiliaoapp.musically</item>
     </string-array>
 </resources>
