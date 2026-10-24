@@ -1,5 +1,4 @@
 package com.an0ym.lsposedcloak;
-
 import java.util.Random;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
@@ -13,29 +12,18 @@ public final class SensorBiasHook {
 
     public static void install(XC_LoadPackage.LoadPackageParam lp) {
         try {
-            XposedHelpers.findAndHookMethod(
-                "android.hardware.SystemSensorManager$SensorEventQueue",
-                lp.classLoader,
-                "dispatchSensorEvent",
-                int.class, float[].class, int.class, long.class,
-                new XC_MethodHook() {
+            XposedHelpers.findAndHookMethod("android.hardware.SystemSensorManager$SensorEventQueue", lp.classLoader, "dispatchSensorEvent",
+                int.class, float[].class, int.class, long.class, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) {
                         float[] values = (float[]) param.args[1];
                         if (values == null || values.length != 3) return;
-                        float nX = (RNG.nextFloat() - 0.5f) * 0.002f;
-                        float nY = (RNG.nextFloat() - 0.5f) * 0.002f;
-                        float nZ = (RNG.nextFloat() - 0.5f) * 0.002f;
-
-                        values[0] = values[0] + B_X + nX;
-                        values[1] = values[1] + B_Y + nY;
-                        values[2] = values[2] + B_Z + nZ;
+                        values[0] = values[0] + B_X + (RNG.nextFloat() - 0.5f) * 0.002f;
+                        values[1] = values[1] + B_Y + (RNG.nextFloat() - 0.5f) * 0.002f;
+                        values[2] = values[2] + B_Z + (RNG.nextFloat() - 0.5f) * 0.002f;
                     }
-                }
-            );
+                });
             Logger.i("SensorBiasHook installed");
-        } catch (Throwable t) {
-            Logger.e("SensorBiasHook", t);
-        }
+        } catch (Throwable t) { Logger.e("SensorBiasHook", t); }
     }
 }
